@@ -61,7 +61,6 @@ namespace Initio_4tronix
 
             var camera = new Camera();
             await camera.Initialize();
-            camera.Start();
 
             var httpServer = new HttpServer(motorController, servoController, camera);
             httpServer.Start();
