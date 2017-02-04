@@ -1,0 +1,56 @@
+﻿body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+}
+
+/* Preload images */
+body:after {
+    display: none;
+    content: url("../Images/shutdown@64x64.png") url("../Images/shutdown-active@64x64.png") url("../Images/fullscreen@64x64.png") url("../Images/fullscreen-active@64x64.png");
+}
+
+.videoFrame {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+}
+
+.fullscreen-button {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/fullscreen@64x64.png");
+}
+
+.fullscreen-active-button {
+    background-image: url("../Images/fullscreen-active@64x64.png");
+}
+
+.fullscreen-button-container {
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 20px;
+}
+
+.shutdown-button {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/shutdown@64x64.png");
+}
+
+.shutdown-active-button {
+    background-image: url("../Images/shutdown-active@64x64.png");
+}
+
+.shutdown-button-container {
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    right: 20px;
+}

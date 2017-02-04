@@ -1,0 +1,168 @@
+﻿body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    -webkit-touch-callout: none !important;
+}
+
+/* Preload images */
+body:after {
+    display: none;
+    content: url("../Images/shutdown@64x64.png") url("../Images/shutdown-active@64x64.png") url("../Images/arrow-left@64x64.png") url("../Images/arrow-left-pressed@64x64.png") url("../Images/arrow-right@64x64.png") url("../Images/arrow-right-pressed@64x64.png") url("../Images/arrow-up@64x64.png") url("../Images/arrow-up-pressed@64x64.png") url("../Images/arrow-bottom@64x64.png") url("../Images/arrow-bottom-pressed@64x64.png") url("../Images/fullscreen@64x64.png") url("../Images/fullscreen-active@64x64.png");
+}
+
+.left-arrow {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/arrow-left@64x64.png");
+}
+
+.left-arrow-hover {
+    background-image: url("../Images/arrow-left-pressed@64x64.png");
+}
+
+.right-arrow {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/arrow-right@64x64.png");
+}
+
+.right-arrow-hover {
+    background-image: url("../Images/arrow-right-pressed@64x64.png");
+}
+
+.up-arrow {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/arrow-up@64x64.png");
+}
+
+.up-arrow-hover {
+    background-image: url("../Images/arrow-up-pressed@64x64.png");
+}
+
+.down-arrow {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/arrow-bottom@64x64.png");
+}
+
+.down-arrow-hover {
+    background-image: url("../Images/arrow-bottom-pressed@64x64.png");
+}
+
+#up {
+    width: 256px;
+    background-position: center;
+}
+
+#down {
+    width: 256px;
+    background-position: center;
+}
+
+#left {
+    width: 128px;
+    background-position: center;
+}
+
+#right {
+    width: 128px;
+    background-position: center;
+}
+
+.direction-controller {
+    position: fixed;
+    z-index: 2;
+    bottom: 20px;
+    width: auto;
+}
+
+.speed-controller {
+    position: fixed;
+    z-index: 1;
+    bottom: 20px;
+    right: 16px;
+}
+
+.videoFrame {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+}
+
+#backward {
+    width: 96px;
+    height: 96px;
+    background-position: center bottom;
+}
+
+#forward {
+    width: 96px;
+    height: 96px;
+    background-position: center bottom;
+}
+
+@media only screen and (orientation:portrait) {
+    .direction-controller {
+        display: none;
+    }
+    .speed-controller {
+        display: none;
+    }
+}
+
+.fullscreen-button {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/fullscreen@64x64.png");
+}
+
+.fullscreen-active-button {
+    background-image: url("../Images/fullscreen-active@64x64.png");
+}
+
+.fullscreen-button-container {
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 20px;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.shutdown-button {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url("../Images/shutdown@64x64.png");
+}
+
+.shutdown-active-button {
+    background-image: url("../Images/shutdown-active@64x64.png");
+}
+
+.shutdown-button-container {
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    right: 20px;
+}

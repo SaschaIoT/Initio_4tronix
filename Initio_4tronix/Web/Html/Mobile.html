@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Initio_4tronix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="Styles/Mobile.css">
+</head>
+<body oncontextmenu="return false;">
+    
+    <img id="videoFrame" class="videoFrame" />
+   
+     <div class="direction-controller">
+        <div class="float-left">
+            <div>
+                <div id="up" class="up-arrow"></div>
+            </div>
+            <div>
+                <div id="left" class="left-arrow float-left"></div>
+                <div id="right" class="right-arrow float-left"></div>
+            </div>
+            <div class="clear-both">
+                <div id="down" class="down-arrow"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="speed-controller">
+        <div class="float-right">
+            <div id="forward" class="up-arrow float-right"></div>
+            <div id="backward" class="down-arrow float-right"></div>
+        </div>
+    </div>
+
+    <div class="fullscreen-button-container">
+        <div id="fullscreenButton" class="fullscreen-button"></div>
+    </div>
+
+    <div class="shutdown-button-container">
+        <div id="shutdownButton" class="shutdown-button"></div>
+    </div>
+
+    <script src="JavaScript/Fullscreen_Mobile.js"></script>
+    <script src="JavaScript/Command_Mobile.js"></script>
+    <script src="JavaScript/Camera.js"></script>
+    <script src="JavaScript/Shutdown_Mobile.js"></script>
+</body>
+</html>
