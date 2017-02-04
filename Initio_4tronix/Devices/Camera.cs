@@ -88,117 +88,50 @@ namespace Initio_4tronix.Devices
 
                 _mediaFrameReader = await _mediaCapture.CreateFrameReaderAsync(mediaFrameSource);
 
-                //_mediaFrameReader.FrameArrived += FrameArrived;
+                _mediaFrameReader.FrameArrived += FrameArrived;
 
-                //await _mediaFrameReader.StartAsync();
+                await _mediaFrameReader.StartAsync();
             });
         }
-
-        public void Start()
+        
+        public void FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs eventArgs)
         {
-            Task.Factory.StartNew(() =>
+            var frame = _mediaFrameReader.TryAcquireLatestFrame();
+
+            if (frame == null
+                || frame.VideoMediaFrame == null
+                || frame.VideoMediaFrame.SoftwareBitmap == null)
+                return;
+
+            using (var stream = new InMemoryRandomAccessStream())
             {
-                ProcessFrames();
-
-            }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private void GarbageCollectorCanWorkHere() { }
-
-        private void ProcessFrames()
-        {
-            _mediaFrameReader.StartAsync().AsTask().Wait();
-
-#if DEBUG
-            return;
-#endif
-
-            while (true)
-            {
-                try
+                using (var bitmap = SoftwareBitmap.Convert(frame.VideoMediaFrame.SoftwareBitmap, BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied))
                 {
-                    GarbageCollectorCanWorkHere();
+                    var imageTask = BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream, _imageQuality).AsTask();
+                    imageTask.Wait();
+                    var encoder = imageTask.Result;
+                    encoder.SetSoftwareBitmap(bitmap);
 
-                    var frame = _mediaFrameReader.TryAcquireLatestFrame();
+                    //Rotate image 180 degrees
+                    var transform = encoder.BitmapTransform;
+                    transform.Rotation = BitmapRotation.Clockwise180Degrees;
 
-                    if (frame == null
-                        || frame.VideoMediaFrame == null
-                        || frame.VideoMediaFrame.SoftwareBitmap == null)
-                        continue;
+                    var flushTask = encoder.FlushAsync().AsTask();
+                    flushTask.Wait();
 
-                    using (var stream = new InMemoryRandomAccessStream())
+                    using (var asStream = stream.AsStream())
                     {
-                        using (var bitmap = SoftwareBitmap.Convert(frame.VideoMediaFrame.SoftwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore))
-                        {
-                            var imageTask = BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream, _imageQuality).AsTask();
-                            imageTask.Wait();
-                            var encoder = imageTask.Result;
-                            encoder.SetSoftwareBitmap(bitmap);
+                        asStream.Position = 0;
 
-                            //Rotate image 180 degrees
-                            var transform = encoder.BitmapTransform;
-                            transform.Rotation = BitmapRotation.Clockwise180Degrees;
+                        var image = new byte[asStream.Length];
+                        asStream.Read(image, 0, image.Length);
 
-                            var flushTask = encoder.FlushAsync().AsTask();
-                            flushTask.Wait();
+                        Frame = image;
 
-                            using (var asStream = stream.AsStream())
-                            {
-                                asStream.Position = 0;
-
-                                var image = new byte[asStream.Length];
-                                asStream.Read(image, 0, image.Length);
-
-                                Frame = image;
-
-                                encoder = null;
-                            }
-                        }
+                        encoder = null;
                     }
                 }
-                catch (Exception) { }
             }
         }
-
-        //public void FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs eventArgs)
-        //{
-        //    var frame = _mediaFrameReader.TryAcquireLatestFrame();
-
-        //    if (frame == null
-        //        || frame.VideoMediaFrame == null
-        //        || frame.VideoMediaFrame.SoftwareBitmap == null)
-        //        return;
-
-        //    using (var stream = new InMemoryRandomAccessStream())
-        //    {
-        //        using (var bitmap = SoftwareBitmap.Convert(frame.VideoMediaFrame.SoftwareBitmap, BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied))
-        //        {
-        //            var imageTask = BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream, _imageQuality).AsTask();
-        //            imageTask.Wait();
-        //            var encoder = imageTask.Result;
-        //            encoder.SetSoftwareBitmap(bitmap);
-
-        //            //Rotate image 180 degrees
-        //            var transform = encoder.BitmapTransform;
-        //            transform.Rotation = BitmapRotation.Clockwise180Degrees;
-
-        //            var flushTask = encoder.FlushAsync().AsTask();
-        //            flushTask.Wait();
-
-        //            using (var asStream = stream.AsStream())
-        //            {
-        //                asStream.Position = 0;
-
-        //                var image = new byte[asStream.Length];
-        //                asStream.Read(image, 0, image.Length);
-
-        //                Frame = image;
-
-        //                encoder = null;
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
