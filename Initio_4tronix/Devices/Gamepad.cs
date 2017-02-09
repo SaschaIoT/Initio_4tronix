@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Gaming.Input;
+using Windows.System;
 
 namespace Initio_4tronix.Devices
 {
@@ -56,11 +57,11 @@ namespace Initio_4tronix.Devices
         {
             _isGamepadReadingStopped = false;
 
-            var buttonDownTimeMiddle = TimeSpan.FromSeconds(2);
+            var buttonDownTimeLong = TimeSpan.FromSeconds(5);
+            var xRightShoulderButton = new GamepadButtonDown(buttonDownTimeLong, GamepadButtons.X, GamepadButtons.RightShoulder);
 
             while (_gamepad == gamepad)
             {
-                //gamepad variable could be null
                 var gamepadReadingTry = gamepad?.GetCurrentReading();
                 if (!gamepadReadingTry.HasValue)
                     break;
@@ -74,6 +75,7 @@ namespace Initio_4tronix.Devices
                 {
                     _carStopped = false;
 
+                    //Move motors and servos
                     _motorController.Move(motorCommand);
                     _servoController.Move(servoCommand);
                 }
@@ -81,6 +83,13 @@ namespace Initio_4tronix.Devices
                 if (motorCommand.Speed == 0 && servoCommand.Speed == 0)
                 {
                     _carStopped = true;
+                }
+
+                //Shutdown
+                var xRightShoulderButtonResult = xRightShoulderButton.UpdateGamepadButtonState(gamepadReading);
+                if (xRightShoulderButtonResult.ButtonClicked)
+                {
+                    await ProcessLauncher.RunToCompletionAsync(@"CmdWrapper.exe", "\"shutdown -s -t 0\"");
                 }
 
                 await Task.Delay(25);
