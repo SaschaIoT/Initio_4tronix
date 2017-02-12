@@ -1,11 +1,5 @@
-﻿using Initio_4tronix.Helper;
-using Microsoft.IoT.Lightning.Providers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
-using Windows.Devices.Pwm;
 
 namespace Initio_4tronix.CarController
 {

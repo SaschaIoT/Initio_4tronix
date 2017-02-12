@@ -2,12 +2,10 @@
 using Initio_4tronix.Devices;
 using Initio_4tronix.Helper;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Data.Json;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Windows.System;

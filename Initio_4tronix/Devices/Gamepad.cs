@@ -1,9 +1,5 @@
 ﻿using Initio_4tronix.CarController;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Gaming.Input;
 using Windows.System;
