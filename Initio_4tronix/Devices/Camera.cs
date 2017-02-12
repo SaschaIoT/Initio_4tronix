@@ -1,20 +1,16 @@
 ﻿using Initio_4tronix.Helper;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Imaging;
-using Windows.Media;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
-using Windows.Media.MediaProperties;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 
 namespace Initio_4tronix.Devices
 {
@@ -88,9 +84,14 @@ namespace Initio_4tronix.Devices
 
                 _mediaFrameReader = await _mediaCapture.CreateFrameReaderAsync(mediaFrameSource);
 
-                _mediaFrameReader.FrameArrived += FrameArrived;
+                //If debugger is attached you can't get frames from the camera, because the BitmapEncoder
+                //has a bug and not dispose correctly. This results in an System.OutOfMemoryException
+                if (!Debugger.IsAttached)
+                {
+                    _mediaFrameReader.FrameArrived += FrameArrived;
 
-                await _mediaFrameReader.StartAsync();
+                    await _mediaFrameReader.StartAsync();
+                }
             });
         }
         
