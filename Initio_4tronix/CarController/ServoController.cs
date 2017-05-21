@@ -18,7 +18,7 @@ namespace Initio_4tronix.CarController
             await _pwmController.Initialize();
             _pwmController.SetDesiredFrequency(60);
 
-            _pwmController.SetPwm(0, 0, 340);
+            _pwmController.SetPwm(0, 0, 305);
             _pwmController.SetPwm(1, 0, _tiltServoCurrentPosition);
         }
 
