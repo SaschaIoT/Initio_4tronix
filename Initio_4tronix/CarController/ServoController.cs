@@ -6,10 +6,13 @@ namespace Initio_4tronix.CarController
     public class ServoController
     {
         private PwmController _pwmController;
-        
+
+        //TODO: Adjust vertical servo min position
         private const ushort SERVO_MIN_POSITION = 150;
+        //TODO: Vertical servo max position
         private const ushort SERVO_MAX_POSITION = 430;
 
+        //TODO: Initial vertical servo position
         private ushort _tiltServoCurrentPosition = 290;
         
         public async Task Initialize()
@@ -18,7 +21,9 @@ namespace Initio_4tronix.CarController
             await _pwmController.Initialize();
             _pwmController.SetDesiredFrequency(60);
 
+            //TODO: Initial horizontal servo position
             _pwmController.SetPwm(0, 0, 305);
+            //Initial vertical servo position
             _pwmController.SetPwm(1, 0, _tiltServoCurrentPosition);
         }
 
@@ -55,6 +60,7 @@ namespace Initio_4tronix.CarController
 
             if (servoCommand.Up || servoCommand.Down)
             {
+                //Up or down vertical servo position
                 _pwmController.SetPwm(1, 0, _tiltServoCurrentPosition);
             }
         }
